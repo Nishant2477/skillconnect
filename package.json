@@ -7,6 +7,7 @@
   ],
   "scripts": {
     "dev": "concurrently -n API,WEB -c cyan,green \"npm run dev --workspace skillconnect-backend\" \"npm run dev --workspace skillconnect-react\"",
+    "start": "npm start --workspace skillconnect-backend",
     "server": "npm run dev --workspace skillconnect-backend",
     "dev:backend": "npm run dev --workspace skillconnect-backend",
     "dev:frontend": "npm run dev --workspace skillconnect-react",
