@@ -1,0 +1,17 @@
+{
+  "name": "skillconnect-monorepo",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently -n API,WEB -c cyan,green \"npm run dev --workspace skillconnect-backend\" \"npm run dev --workspace skillconnect-react\"",
+    "dev:backend": "npm run dev --workspace skillconnect-backend",
+    "dev:frontend": "npm run dev --workspace skillconnect-react",
+    "build": "npm run build --workspace skillconnect-react"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
