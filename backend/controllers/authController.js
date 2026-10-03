@@ -10,8 +10,28 @@ function generateToken(user) {
     );
 }
 
+function hasUsableJwtSecret() {
+    const secret = process.env.JWT_SECRET?.trim();
+    return Boolean(
+        secret &&
+        secret.length >= 32 &&
+        !/^(replace|change|your)[_-]/i.test(secret)
+    );
+}
+
+function rejectIfJwtSecretMissing(res) {
+    if (hasUsableJwtSecret()) return false;
+
+    res.status(503).json({
+        message: "Authentication is not configured on this server"
+    });
+    return true;
+}
+
 async function registerUser(req, res) {
     try {
+        if (rejectIfJwtSecretMissing(res)) return;
+
         const { name, email, password } = req.body;
         if (!name || !email || !password) {
             return res.status(400).json({
@@ -62,6 +82,8 @@ async function registerUser(req, res) {
 
 async function loginUser(req, res) {
     try {
+        if (rejectIfJwtSecretMissing(res)) return;
+
         const { email, password } = req.body;
         if (
             typeof email !== "string" ||
