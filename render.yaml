@@ -13,5 +13,7 @@ services:
         sync: false
       - key: REQUESTY_API_KEY
         sync: false
+      - key: FRONTEND_URL
+        value: https://skillconnect-khaki.vercel.app
       - key: REQUESTY_MODEL
         value: google/gemma-4-31b-it

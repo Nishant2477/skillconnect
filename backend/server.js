@@ -15,8 +15,19 @@ const aiRoutes = require("./routes/aiRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const allowedOrigins = new Set(
+    (process.env.FRONTEND_URL || "https://skillconnect-khaki.vercel.app")
+        .split(",")
+        .map(origin => origin.trim().replace(/\/+$/, ""))
+        .filter(Boolean)
+);
 
-app.use(cors());
+app.use(cors({
+    origin(origin, callback) {
+        const isLocalDevelopment = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin || "");
+        callback(null, !origin || isLocalDevelopment || allowedOrigins.has(origin));
+    }
+}));
 app.use(express.json());
 
 app.get("/", (req, res) => {
